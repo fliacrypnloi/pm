@@ -14,7 +14,6 @@ const promoList = [
 { code: "6391087192" },
 { code: "7457769202" },
 { code: "8330656816" }, // exp Dec 14 2025
-{ code: "7634974917" }, // exp Dec 10 2025
 { code: "7436021331" }, // exp Dec 11 2025
 
   // Add more allowed Telegram user IDs here
