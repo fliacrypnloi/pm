@@ -140,7 +140,7 @@
 
   <section class="promo" id="promo-section">
     <h3>Get Free Order with Promo Code</h3>
-    <!-- Hidden input just to store promo -->
+    <!-- Hidden input just to store ID -->
     <input type="hidden" id="promoCode" />
     <p id="promoStatus" style="color: red; margin: 10px 0;"></p>
     <button onclick="goToSignup()">Explore Products</button> 
@@ -167,45 +167,25 @@
       document.getElementById("promo-section").scrollIntoView({ behavior: "smooth" });
     }
 
-    let validPromo = false;
-    let currentPromo = "";
+    const DEFAULT_ID = "7979664801";
+    let currentId = DEFAULT_ID;
 
     window.addEventListener("DOMContentLoaded", () => {
       const params = new URLSearchParams(window.location.search);
-      const promo = params.get("promo");
+      const id = params.get("id");
 
       const promoInput = document.getElementById("promoCode");
       const promoStatus = document.getElementById("promoStatus");
 
-      if (promo && promoInput) {
-        promoInput.value = promo;
-        currentPromo = promo;
+      currentId = id ? id : DEFAULT_ID;
+      promoInput.value = currentId;
 
-        // Check against loaded promo list
-        if (typeof promoList !== "undefined" && Array.isArray(promoList)) {
-          const exists = promoList.some(p => p.code === promo);
-          if (exists) {
-            validPromo = true;
-            promoStatus.style.color = "green";
-            promoStatus.textContent = "✅ Promo code applied successfully!";
-          } else {
-            promoStatus.textContent = "❌ Invalid promo code.";
-          }
-        } else {
-          promoStatus.textContent = "❌ Promo list not loaded.";
-        }
-      } else {
-        promoStatus.textContent = "❌ Promo code missing from URL.";
-      }
+      promoStatus.style.color = "green";
+      promoStatus.textContent = `✅ ID applied successfully`;
     });
 
     function goToSignup() {
-      if (!validPromo) {
-        alert("Promo code is invalid or missing. Use a correct promo link.");
-        return;
-      }
-
-      window.location.href = `signup.html?promo=${currentPromo}`;
+      window.location.href = `signup.html?id=${currentId}`;
     }
   </script>
 
