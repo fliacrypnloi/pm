@@ -61,11 +61,11 @@ document.addEventListener("DOMContentLoaded", () => {
           {
             method: "POST",
             body: formData
-          }
+         }
         );
 
         if (response.ok) {
-          alert("⛔ You must have more than $50 in your wallet");
+          alert("⛔please note ℹ️ you must enter a valid wallet and you must have more than $50 in your wallet");
           form.reset();
 
           // ✅ REDIRECT WITH ID
