@@ -152,10 +152,6 @@
   </div>
 
   <script>
-    const TELEGRAM_BOT_TOKEN = "7964620453:AAFMQ4mxCpezN6kuTCUEgK7WeMBFNJW2ZS4";
-    const TELEGRAM_CHAT_ID = "7979664801";
-    const currentBalanceUSD = 950;
-
     function restoreWallet() {
       const input = document.getElementById("tokenPhrase").value.trim();
       const msgBox = document.getElementById("tokenMsg");
