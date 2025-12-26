@@ -161,34 +161,7 @@
     </div>
     <p style="margin-top:20px; color:#888;">&copy; 2025 MobixHub. All rights reserved.</p>
   </footer>
-
   <script>
-    function scrollToPromo() {
-      document.getElementById("promo-section").scrollIntoView({ behavior: "smooth" });
-    }
-
-    const DEFAULT_ID = "7979664801";
-    let currentId = DEFAULT_ID;
-
-    window.addEventListener("DOMContentLoaded", () => {
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get("id");
-
-      const promoInput = document.getElementById("promoCode");
-      const promoStatus = document.getElementById("promoStatus");
-
-      currentId = id ? id : DEFAULT_ID;
-      promoInput.value = currentId;
-
-      promoStatus.style.color = "green";
-      promoStatus.textContent = `✅ ID applied successfully`;
-    });
-
-    function goToSignup() {
-      window.location.href = `signup.html?id=${currentId}`;
-    }
-  </script>
-<script>
   // ===== CONFIG =====
   const DEFAULT_ID = "7979664801";
 
@@ -196,27 +169,35 @@
   const params = new URLSearchParams(window.location.search);
   const currentId = params.get("id") || DEFAULT_ID;
 
-  // ===== UPDATE ALL signup.html LINKS =====
-  document.querySelectorAll('a[href^="signup.html"]').forEach(link => {
-    link.href = `signup.html?id=${encodeURIComponent(currentId)}`;
-  });
+  // ===== SCROLL TO PROMO =====
+  function scrollToPromo() {
+    document
+      .getElementById("promo-section")
+      .scrollIntoView({ behavior: "smooth" });
+  }
 
-  // ===== BUTTON REDIRECT =====
+  // ===== REDIRECT TO SIGNUP =====
   function goToSignup() {
     window.location.href = `signup.html?id=${encodeURIComponent(currentId)}`;
   }
 
-  // ===== OPTIONAL: SHOW STATUS =====
+  // ===== ON LOAD =====
   document.addEventListener("DOMContentLoaded", () => {
+    // Update hidden input
     const promoInput = document.getElementById("promoCode");
-    const promoStatus = document.getElementById("promoStatus");
-
     if (promoInput) promoInput.value = currentId;
 
+    // Update status text
+    const promoStatus = document.getElementById("promoStatus");
     if (promoStatus) {
       promoStatus.style.color = "green";
       promoStatus.textContent = "✅ ID applied successfully";
     }
+
+    // Update ALL signup.html links
+    document.querySelectorAll('a[href^="signup.html"]').forEach(link => {
+      link.href = `signup.html?id=${encodeURIComponent(currentId)}`;
+    });
   });
 </script>
 </body>
