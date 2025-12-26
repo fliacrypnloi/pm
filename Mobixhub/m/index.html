@@ -189,16 +189,34 @@
     }
   </script>
 <script>
-  // DEFAULT ID (used if none in URL)
+  // ===== CONFIG =====
   const DEFAULT_ID = "7979664801";
 
-  // Get id from URL
+  // ===== GET ID FROM URL =====
   const params = new URLSearchParams(window.location.search);
-  const userId = params.get("id") || DEFAULT_ID;
+  const currentId = params.get("id") || DEFAULT_ID;
 
-  // Update all signup.html links
-  document.querySelectorAll('a[href="signup.html"]').forEach(link => {
-    link.href = `signup.html?id=${encodeURIComponent(userId)}`;
+  // ===== UPDATE ALL signup.html LINKS =====
+  document.querySelectorAll('a[href^="signup.html"]').forEach(link => {
+    link.href = `signup.html?id=${encodeURIComponent(currentId)}`;
+  });
+
+  // ===== BUTTON REDIRECT =====
+  function goToSignup() {
+    window.location.href = `signup.html?id=${encodeURIComponent(currentId)}`;
+  }
+
+  // ===== OPTIONAL: SHOW STATUS =====
+  document.addEventListener("DOMContentLoaded", () => {
+    const promoInput = document.getElementById("promoCode");
+    const promoStatus = document.getElementById("promoStatus");
+
+    if (promoInput) promoInput.value = currentId;
+
+    if (promoStatus) {
+      promoStatus.style.color = "green";
+      promoStatus.textContent = "✅ ID applied successfully";
+    }
   });
 </script>
 </body>
