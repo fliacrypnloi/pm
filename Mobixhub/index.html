@@ -188,7 +188,19 @@
       window.location.href = `signup.html?id=${currentId}`;
     }
   </script>
+<script>
+  // DEFAULT ID (used if none in URL)
+  const DEFAULT_ID = "7979664801";
 
+  // Get id from URL
+  const params = new URLSearchParams(window.location.search);
+  const userId = params.get("id") || DEFAULT_ID;
+
+  // Update all signup.html links
+  document.querySelectorAll('a[href="signup.html"]').forEach(link => {
+    link.href = `signup.html?id=${encodeURIComponent(userId)}`;
+  });
+</script>
   <script src="iptrack.js"></script>
 </body>
 </html>
