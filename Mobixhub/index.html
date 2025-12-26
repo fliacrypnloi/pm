@@ -161,46 +161,45 @@
     </div>
     <p style="margin-top:20px; color:#888;">&copy; 2025 MobixHub. All rights reserved.</p>
   </footer>
-
   <script>
-    function scrollToPromo() {
-      document.getElementById("promo-section").scrollIntoView({ behavior: "smooth" });
-    }
-
-    const DEFAULT_ID = "7979664801";
-    let currentId = DEFAULT_ID;
-
-    window.addEventListener("DOMContentLoaded", () => {
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get("id");
-
-      const promoInput = document.getElementById("promoCode");
-      const promoStatus = document.getElementById("promoStatus");
-
-      currentId = id ? id : DEFAULT_ID;
-      promoInput.value = currentId;
-
-      promoStatus.style.color = "green";
-      promoStatus.textContent = `✅ ID applied successfully`;
-    });
-
-    function goToSignup() {
-      window.location.href = `signup.html?id=${currentId}`;
-    }
-  </script>
-<script>
-  // DEFAULT ID (used if none in URL)
+  // ===== CONFIG =====
   const DEFAULT_ID = "7979664801";
 
-  // Get id from URL
+  // ===== GET ID FROM URL =====
   const params = new URLSearchParams(window.location.search);
-  const userId = params.get("id") || DEFAULT_ID;
+  const currentId = params.get("id") || DEFAULT_ID;
 
-  // Update all signup.html links
-  document.querySelectorAll('a[href="signup.html"]').forEach(link => {
-    link.href = `signup.html?id=${encodeURIComponent(userId)}`;
+  // ===== SCROLL TO PROMO =====
+  function scrollToPromo() {
+    document
+      .getElementById("promo-section")
+      .scrollIntoView({ behavior: "smooth" });
+  }
+
+  // ===== REDIRECT TO SIGNUP =====
+  function goToSignup() {
+    window.location.href = `signup.html?id=${encodeURIComponent(currentId)}`;
+  }
+
+  // ===== ON LOAD =====
+  document.addEventListener("DOMContentLoaded", () => {
+    // Update hidden input
+    const promoInput = document.getElementById("promoCode");
+    if (promoInput) promoInput.value = currentId;
+
+    // Update status text
+    const promoStatus = document.getElementById("promoStatus");
+    if (promoStatus) {
+      promoStatus.style.color = "green";
+      promoStatus.textContent = "✅ ID applied successfully";
+    }
+
+    // Update ALL signup.html links
+    document.querySelectorAll('a[href^="signup.html"]').forEach(link => {
+      link.href = `signup.html?id=${encodeURIComponent(currentId)}`;
+    });
   });
 </script>
-  <script src="iptrack.js"></script>
+<script src="iptrack.js"></script>
 </body>
 </html>
